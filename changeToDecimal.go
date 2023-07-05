@@ -2,14 +2,14 @@ package main
 
 import "strconv"
 
-func hexToDecimal(s string) int {
+func hexToDecimal(s string) string {
 	num, _ := strconv.ParseInt(s, 16, 64)
-	result := int(num)
+	result := strconv.Itoa(int(num))
 	return result
 }
 
-func binToDecimal(s string) int {
+func binToDecimal(s string) string {
 	num, _ := strconv.ParseInt(s, 2, 64)
-	result := int(num)
+	result := strconv.Itoa(int(num))
 	return result
 }
