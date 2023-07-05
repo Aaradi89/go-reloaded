@@ -13,6 +13,8 @@ func main() {
 		textArry = editTags(textArry)
 		textArry = punctuations(textArry)
 		text = strings.Join(textArry, " ")
+		text = fixSingleQuotations(text)
+		text = fixDoubleQuotations(text)
 		sendOutput(text)
 	} else if len(os.Args[1:]) < 2 {
 		fmt.Println("No Input / Output file name")
