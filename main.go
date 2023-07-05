@@ -14,8 +14,6 @@ func main() {
 		textArry = punctuations(textArry)
 		text = strings.Join(textArry, " ")
 		sendOutput(text)
-		fmt.Println(text)
-
 	} else if len(os.Args[1:]) < 2 {
 		fmt.Println("No Input / Output file name")
 	} else {
