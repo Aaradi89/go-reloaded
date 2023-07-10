@@ -17,9 +17,6 @@ func editTags(text []string) []string {
 				if newText[i] == "" {
 					newText = append(newText[:i], newText[i+1:]...)
 				}
-			} else {
-				newText[i] = strings.ReplaceAll(word, "(hex)", "")
-				newText[i] = strings.ToUpper(newText[i])
 			}
 		} else if strings.Contains(word, "(bin)") {
 			if checkTag(word, "(bin)") {
@@ -28,11 +25,7 @@ func editTags(text []string) []string {
 				if newText[i] == "" {
 					newText = append(newText[:i], newText[i+1:]...)
 				}
-			} else {
-				newText[i] = strings.ReplaceAll(word, "(bin)", "")
-				newText[i] = strings.ToUpper(newText[i])
 			}
-
 		} else if strings.Contains(word, "(up)") {
 			if checkTag(word, "(up)") {
 				newText[i-1] = strings.ToUpper(newText[i-1])
@@ -40,46 +33,58 @@ func editTags(text []string) []string {
 				if newText[i] == "" {
 					newText = append(newText[:i], newText[i+1:]...)
 				}
-			} else {
-				newText[i] = strings.ReplaceAll(word, "(up)", "")
-				newText[i] = strings.ToUpper(newText[i])
 			}
 		} else if strings.Contains(word, "(low)") {
-			newText[i-1] = strings.ToLower(newText[i-1])
-			newText[i] = strings.ReplaceAll(word, "(low)", "")
-			if newText[i] == "" {
-				newText = append(newText[:i], newText[i+1:]...)
+			if checkTag(word, "(low)") {
+				newText[i-1] = strings.ToLower(newText[i-1])
+				newText[i] = strings.ReplaceAll(word, "(low)", "")
+				if newText[i] == "" {
+					newText = append(newText[:i], newText[i+1:]...)
+				}
 			}
 		} else if strings.Contains(word, "(cap)") {
-			newText[i-1] = Capitalize(newText[i-1])
-			newText[i] = strings.ReplaceAll(word, "(cap)", "")
-			if newText[i] == "" {
-				newText = append(newText[:i], newText[i+1:]...)
+			if checkTag(word, "(cap)") {
+				newText[i-1] = Capitalize(newText[i-1])
+				newText[i] = strings.ReplaceAll(word, "(cap)", "")
+				if newText[i] == "" {
+					newText = append(newText[:i], newText[i+1:]...)
+				}
 			}
 		} else if word == "(up," {
-			repeat := cutSuffix(word, newText[i+1], i)
-			if repeat >= 0 {
-				for y := repeat; y > 0; y-- {
-					newText[i-y] = strings.ToUpper(newText[i-y])
-				}
-			}
-			newText = removeTags(newText, i)
-
-		} else if word == "(low," {
-			repeat := cutSuffix(word, newText[i+1], i)
-			if repeat > 0 {
-				for y := repeat; y > 0; y-- {
-					newText[i-y] = strings.ToLower(newText[i-y])
+			if checkTag(word, "(up,") {
+				repeat := cutSuffix(word, newText[i+1], i)
+				if repeat >= 0 {
+					for y := repeat; y > 0; y-- {
+						newText[i-y] = strings.ToUpper(newText[i-y])
+					}
 				}
 				newText = removeTags(newText, i)
+			} else {
+				fmt.Printf("Please edit your space %s\n", word)
+			}
+		} else if word == "(low," {
+			if checkTag(word, "(low,") {
+				repeat := cutSuffix(word, newText[i+1], i)
+				if repeat > 0 {
+					for y := repeat; y > 0; y-- {
+						newText[i-y] = strings.ToLower(newText[i-y])
+					}
+					newText = removeTags(newText, i)
+				}
+			} else {
+				fmt.Printf("Please edit your space %s\n", word)
 			}
 		} else if word == "(cap," {
-			repeat := cutSuffix(word, newText[i+1], i)
-			if repeat > 0 {
-				for y := repeat; y > 0; y-- {
-					newText[i-y] = Capitalize(newText[i-y])
+			if checkTag(word, "(cap,") {
+				repeat := cutSuffix(word, newText[i+1], i)
+				if repeat > 0 {
+					for y := repeat; y > 0; y-- {
+						newText[i-y] = Capitalize(newText[i-y])
+					}
+					newText = removeTags(newText, i)
 				}
-				newText = removeTags(newText, i)
+			} else {
+				fmt.Printf("Please edit your space %s\n", word)
 			}
 		}
 	}
@@ -122,6 +127,5 @@ func checkTag(text, tag string) bool {
 	patt := "^[" + tag + "].*"
 	re := regexp.MustCompile(patt)
 	match := re.MatchString(text)
-	fmt.Println("patt:", patt, "text:", text, match)
 	return match
 }

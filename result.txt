@@ -1,1 +1,1 @@
-harold wilson(up, 2): 'I am an OPTIMIST!!; but an OPTIMIST who carries a raincoat.'
+HAROLD WILSON: 'I am an OPTIMIST!! ;but an optimist who carries a raincoat.'
