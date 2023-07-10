@@ -2,16 +2,21 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"os"
 )
 
-func getInput() string {
+func getInput() (string, bool) {
 	inputFile := os.Args[1]
-	file, _ := os.Open(inputFile)
+	file, err := os.Open(inputFile)
+	if err != nil {
+		fmt.Println("Input file cannot be found")
+		return "", false
+	}
 	defer file.Close()
 	content, _ := io.ReadAll(file)
-	return string(content)
+	return string(content), true
 }
 
 func sendOutput(text string) {

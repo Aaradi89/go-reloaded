@@ -1,54 +1,61 @@
 package main
 
-import "fmt"
+import "strings"
 
 func fixSingleQuotations(text string) string {
-	newTest := ""
+	newText := ""
 	firstSingle := true
-	for letter := 0; letter < len(text);letter++ {
-
-		if text[letter] == '\'' && firstSingle && letter == len(text)-2 {
-				if text[letter+1] == ' ' {
-					newTest += " '"
-					letter++
-					firstSingle = false
-				}
-		}else if text[letter] == ' ' && !firstSingle && letter == len(text)-2 {
-			if text[letter+1] == '\''{
-				newTest += "' "
-				letter++
-				firstSingle = true
-			}
-		}else{
-			newTest += string(text[letter])
+	for letter := 0; letter < len(text)-1; letter++ {
+		if text[letter:letter+2] == "' " && firstSingle {
+			newText += " '"
+			letter++
+			firstSingle = false
+		} else if text[letter:letter+2] == " '" && !firstSingle {
+			newText += "' "
+			letter++
+			firstSingle = true
+		} else {
+			newText += string(text[letter])
 		}
 	}
-	return newTest
+	// if newText[len(newText)-1] == ' ' {
+	// 	newText = newText[:len(newText)-1]
+	// }
+	return newText
 }
 
 func fixDoubleQuotations(text string) string {
-	newTest := ""
+	newText := ""
 	firstSingle := true
-	for letter := 0; letter < len(text);letter++ {
-
-		if text[letter] == '"' && firstSingle && letter == len(text)-2 {
-				if text[letter+1] == ' ' {
-					newTest += " \""
-					letter++
-					firstSingle = false
-				}
-		}else if text[letter] == ' ' && !firstSingle && letter == len(text)-2 {
-			fmt.Println("1")
-			if text[letter+1] == '"'{
-				fmt.Println("2")
-				newTest += "\" "
+	for letter := 0; letter < len(text); letter++ {
+		if text[letter] == '"' && firstSingle && letter < len(text)-1 {
+			if text[letter+1] == ' ' {
+				newText += " \""
+				letter++
+				firstSingle = false
+			}
+		} else if text[letter] == ' ' && !firstSingle && letter < len(text)-1 {
+			if text[letter+1] == '"' {
+				newText += "\" "
 				letter++
 				firstSingle = true
 			}
-		}else{
-			newTest += string(text[letter])
+		} else {
+			newText += string(text[letter])
 		}
 	}
-	return newTest
+	// if newText[len(newText)-1] == ' ' {
+	// 	newText = newText[:len(newText)-1]
+	// }
+	cleanArry := SplitInput(newText)
+	newText = strings.Join(cleanArry, " ")
+	return newText
 }
 
+// func fixSingleQuotationsTest(text string) string {
+// 	newText := text
+// 	re := regexp.MustCompile("' *")
+// 	matcher := re.MatchString(newText)
+// 	fmt.Println(matcher)
+// 	return newText
+// }
