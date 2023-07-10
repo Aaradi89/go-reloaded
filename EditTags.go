@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -10,22 +11,38 @@ func editTags(text []string) []string {
 	newText := text
 	for i, word := range newText {
 		if strings.Contains(word, "(hex)") {
-			newText[i-1] = hexToDecimal(newText[i-1])
-			newText[i] = strings.ReplaceAll(word, "(hex)", "")
-			if newText[i] == "" {
-				newText = append(newText[:i], newText[i+1:]...)
+			if checkTag(word, "(hex)") {
+				newText[i-1] = hexToDecimal(newText[i-1])
+				newText[i] = strings.ReplaceAll(word, "(hex)", "")
+				if newText[i] == "" {
+					newText = append(newText[:i], newText[i+1:]...)
+				}
+			} else {
+				newText[i] = strings.ReplaceAll(word, "(hex)", "")
+				newText[i] = strings.ToUpper(newText[i])
 			}
 		} else if strings.Contains(word, "(bin)") {
-			newText[i-1] = binToDecimal(newText[i-1])
-			newText[i] = strings.ReplaceAll(word, "(bin)", "")
-			if newText[i] == "" {
-				newText = append(newText[:i], newText[i+1:]...)
+			if checkTag(word, "(bin)") {
+				newText[i-1] = binToDecimal(newText[i-1])
+				newText[i] = strings.ReplaceAll(word, "(bin)", "")
+				if newText[i] == "" {
+					newText = append(newText[:i], newText[i+1:]...)
+				}
+			} else {
+				newText[i] = strings.ReplaceAll(word, "(bin)", "")
+				newText[i] = strings.ToUpper(newText[i])
 			}
+
 		} else if strings.Contains(word, "(up)") {
-			newText[i-1] = strings.ToUpper(newText[i-1])
-			newText[i] = strings.ReplaceAll(word, "(up)", "")
-			if newText[i] == "" {
-				newText = append(newText[:i], newText[i+1:]...)
+			if checkTag(word, "(up)") {
+				newText[i-1] = strings.ToUpper(newText[i-1])
+				newText[i] = strings.ReplaceAll(word, "(up)", "")
+				if newText[i] == "" {
+					newText = append(newText[:i], newText[i+1:]...)
+				}
+			} else {
+				newText[i] = strings.ReplaceAll(word, "(up)", "")
+				newText[i] = strings.ToUpper(newText[i])
 			}
 		} else if strings.Contains(word, "(low)") {
 			newText[i-1] = strings.ToLower(newText[i-1])
@@ -40,15 +57,16 @@ func editTags(text []string) []string {
 				newText = append(newText[:i], newText[i+1:]...)
 			}
 		} else if word == "(up," {
-			repeat := cutSuffix(newText[i+1], i)
-			if repeat > 0 {
+			repeat := cutSuffix(word, newText[i+1], i)
+			if repeat >= 0 {
 				for y := repeat; y > 0; y-- {
 					newText[i-y] = strings.ToUpper(newText[i-y])
 				}
-				newText = removeTags(newText, i)
 			}
+			newText = removeTags(newText, i)
+
 		} else if word == "(low," {
-			repeat := cutSuffix(newText[i+1], i)
+			repeat := cutSuffix(word, newText[i+1], i)
 			if repeat > 0 {
 				for y := repeat; y > 0; y-- {
 					newText[i-y] = strings.ToLower(newText[i-y])
@@ -56,7 +74,7 @@ func editTags(text []string) []string {
 				newText = removeTags(newText, i)
 			}
 		} else if word == "(cap," {
-			repeat := cutSuffix(newText[i+1], i)
+			repeat := cutSuffix(word, newText[i+1], i)
 			if repeat > 0 {
 				for y := repeat; y > 0; y-- {
 					newText[i-y] = Capitalize(newText[i-y])
@@ -72,12 +90,14 @@ func editTags(text []string) []string {
 	}
 	return newText
 }
-func cutSuffix(s string, i int) int {
+func cutSuffix(tag, s string, i int) int {
 	suffix := "[)](.*)"
 	str := regexp.MustCompile(suffix).ReplaceAllString(s, "")
 	num, _ := strconv.Atoi(str)
 	if num > i {
 		num = i
+	} else {
+		fmt.Printf("Invalid Input : tag %s %s have been removed\n", tag, s)
 	}
 	return num
 }
@@ -97,4 +117,11 @@ func removeTags(s []string, i int) []string {
 		newText = append(newText[:i], newText[i+1:]...)
 	}
 	return newText
+}
+func checkTag(text, tag string) bool {
+	patt := "^[" + tag + "].*"
+	re := regexp.MustCompile(patt)
+	match := re.MatchString(text)
+	fmt.Println("patt:", patt, "text:", text, match)
+	return match
 }

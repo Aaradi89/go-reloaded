@@ -19,7 +19,7 @@ func main() {
 			sendOutput(text)
 			fmt.Println("Completed")
 		}
-		tester()
+		//tester()
 	} else if len(os.Args[1:]) < 2 {
 		fmt.Println("No Input / Output file name")
 	} else {
@@ -27,11 +27,11 @@ func main() {
 	}
 }
 
-func tester() {
-	hexTest := hexToDecimal("p")
-	binaryTest := binToDecimal("0a")
-	capitalizeTest := Capitalize("this")
-	fmt.Printf("Hex Test : %s\n", hexTest)
-	fmt.Printf("Binary Test : %s\n", binaryTest)
-	fmt.Printf("Capitalize Test : %s\n", capitalizeTest)
-}
+// func tester() {
+// 	hexTest := hexToDecimal("p")
+// 	binaryTest := binToDecimal("0a")
+// 	capitalizeTest := Capitalize("this")
+// 	fmt.Printf("Hex Test : %s\n", hexTest)
+// 	fmt.Printf("Binary Test : %s\n", binaryTest)
+// 	fmt.Printf("Capitalize Test : %s\n", capitalizeTest)
+// }
