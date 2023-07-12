@@ -20,7 +20,7 @@ func bin(text string) string {
 	re := regexp.MustCompile(`(\S+) *\( *b *i *n *\)`)
 	result := re.ReplaceAllFunc([]byte(text), func(b []byte) []byte {
 		getBin := string(re.ReplaceAll(b, []byte(`$1`)))
-		result := hexToDecimal(getBin)
+		result := binToDecimal(getBin)
 		return []byte(result)
 	})
 	return (string(result))
