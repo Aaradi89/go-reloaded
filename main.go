@@ -11,27 +11,25 @@ func main() {
 		text, correct := getInput()
 		if correct {
 			textArry := SplitInput(text)
-			textArry = editTags(textArry)
-			textArry = punctuations(textArry)
 			text = strings.Join(textArry, " ")
+			text = hex(text)
+			text = bin(text)
+			text = up(text)
+			text = low(text)
+			text = cap(text)
+			text = specialUp(text)
+			text = specialLow(text)
+			text = specialCap(text)
+			text = punctuations(text)
 			text = fixSingleQuotations(text)
 			text = fixDoubleQuotations(text)
+			text = convertA(text)
 			sendOutput(text)
 			fmt.Println("Completed")
 		}
-		//tester()
 	} else if len(os.Args[1:]) < 2 {
 		fmt.Println("No Input / Output file name")
 	} else {
 		fmt.Println("Too many arguments")
 	}
 }
-
-// func tester() {
-// 	hexTest := hexToDecimal("p")
-// 	binaryTest := binToDecimal("0a")
-// 	capitalizeTest := Capitalize("this")
-// 	fmt.Printf("Hex Test : %s\n", hexTest)
-// 	fmt.Printf("Binary Test : %s\n", binaryTest)
-// 	fmt.Printf("Capitalize Test : %s\n", capitalizeTest)
-// }

@@ -1,18 +1,12 @@
 package main
 
-func convertA(word string) string {
-	firstLetter := rune(word[0])
-	vowels := "aeoiuhAEOIUH"
-	isVowel := false
-	for _, vowel := range vowels {
-		if firstLetter == vowel {
-			isVowel = true
-			break
-		}
-	}
-	if isVowel {
-		return "an"
-	} else {
-		return "a"
-	}
+import (
+	"regexp"
+)
+
+func convertA(s string) string {
+	re := regexp.MustCompile(`(\s[aA])( [aeoiuhAEOIUH])`)
+	result := re.ReplaceAll([]byte(s), []byte(`${1}n$2`))
+	result = re.ReplaceAll([]byte(result), []byte(`${1}n$2`))
+	return string(result)
 }
