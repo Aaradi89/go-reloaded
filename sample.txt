@@ -12,3 +12,6 @@ special tags
 ewfew kopkw vwopkfew (up, 0)
 ewporjpoa (up) (low, 3)
 hgfuytdr kyfdryx (cap, 9)
+-----------
+input output
+extensions .txt
