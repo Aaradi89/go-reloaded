@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"regexp"
 )
 
 func getInput() ([]string, bool) {
@@ -14,8 +15,11 @@ func getInput() ([]string, bool) {
 		return nil, false
 	}
 	defer file.Close()
-	// content, _ := io.ReadAll(file)
-	// return string(content), true
+	re := regexp.MustCompile(`.txt$`)
+	if !re.MatchString(inputFile) || !re.MatchString(os.Args[2]) {
+		fmt.Println("Error : Input/Output file extension should be .txt")
+		return nil, false
+	}
 	scan := bufio.NewScanner(file)
 	var text []string
 	for scan.Scan() {
@@ -26,10 +30,13 @@ func getInput() ([]string, bool) {
 
 func sendOutput(text []string) {
 	outputFile := os.Args[2]
-	file, _ := os.Create(outputFile)
+	file, err := os.Create(outputFile)
+	if err != nil {
+		fmt.Println("Error : ", err)
+		return
+	}
 	defer file.Close()
 	writer := bufio.NewWriter(file)
-	//writer.WriteString(text)
 	for i, line := range text {
 		if i < len(text)-1 {
 			fmt.Fprintln(writer, line)

@@ -1,17 +1,6 @@
-cap up low
--------
-bin hex
---------------
-convA
------
-punctuations
- ---------
- quotations
----------------
-special tags
-ewfew kopkw vwopkfew (up, 0)
-ewporjpoa (up) (low, 3)
-hgfuytdr kyfdryx (cap, 9)
------------
-input output
-extensions .txt
+test (up)
+test (cap)
+TEST (low)
+test :
+' test '
+test ... 

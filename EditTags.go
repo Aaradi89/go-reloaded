@@ -17,9 +17,9 @@ func editTags(text string) string {
 	upPattern := `([)\S]+) *\( *u *p *\)`
 	lowPattern := `([)\S]+) *\( *l *o *w *\)`
 	capPattern := `([)\S]+) *\( *c *a *p *\)`
-	lowSpecialPattern := `([^)]+)(\( *l *o *w *, *(\d+) *\))`
-	upSpecialPattern := `([^)]+)(\( *u *p *, *(\d+) *\))`
-	capSpecialPattern := `([^)]+)(\( *c *a *p *, *(\d+) *\))`
+	lowSpecialPattern := `([^) ]+ *)+(\( *l *o *w *, *(\d+) *\))`
+	upSpecialPattern := `([^) ]+ *)+(\( *u *p *, *(\d+) *\))`
+	capSpecialPattern := `([^) ]+ *)+(\( *c *a *p *, *(\d+) *\))`
 	re := regexp.MustCompile(hexPattern + `|` + binPattern + `|` + upPattern + `|` + lowPattern + `|` + capPattern + `|` + lowSpecialPattern + `|` + upSpecialPattern + `|` + capSpecialPattern)
 	editText := re.ReplaceAllFunc([]byte(text), func(b []byte) []byte {
 		hexRe := regexp.MustCompile(hexPattern)
@@ -98,6 +98,6 @@ func checkTags(text string) bool {
 
 func errMsg(s []byte) bool {
 	errTags := string(s)
-	fmt.Println("you have a Error in", errTags, "tags please Double Check")
+	fmt.Println("you have a Error in", errTags, "tag(s) please Double Check")
 	return false
 }

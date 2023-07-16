@@ -9,8 +9,6 @@ import (
 
 func specialLow(text string) string {
 	re := regexp.MustCompile(`(.*?)(\( *l *o *w *, *(\d+) *\))`)
-	spaceTestRe := regexp.MustCompile(`^ `)
-	spaceTest := spaceTestRe.MatchString(text)
 	result := re.ReplaceAllStringFunc(text, func(s string) string {
 		digit := re.ReplaceAllString(s, `$3`)
 		words := re.ReplaceAllString(s, `$1`)
@@ -24,7 +22,8 @@ func specialLow(text string) string {
 			wordArry := newRe.FindAllString(words, -1)
 			wordArryLen := len(wordArry) - 1
 			if len(wordArry) < repeat {
-				repeat = len(wordArry)
+				fmt.Println(`Error : not enough input to use`, tag)
+				return tag
 			}
 			for i := wordArryLen; i > wordArryLen-repeat; i-- {
 				if i >= 0 {
@@ -36,16 +35,11 @@ func specialLow(text string) string {
 
 		return words
 	})
-	if spaceTest {
-		return " " + result
-	}
 	return result
 }
 
 func specialUp(text string) string {
 	re := regexp.MustCompile(`(.*?)(\( *u *p *, *(\d+) *\))`)
-	spaceTestRe := regexp.MustCompile(`^ `)
-	spaceTest := spaceTestRe.MatchString(text)
 	result := re.ReplaceAllStringFunc(text, func(s string) string {
 		digit := re.ReplaceAllString(s, `$3`)
 		words := re.ReplaceAllString(s, `$1`)
@@ -59,7 +53,8 @@ func specialUp(text string) string {
 			wordArry := newRe.FindAllString(words, -1)
 			wordArryLen := len(wordArry) - 1
 			if len(wordArry) < repeat {
-				repeat = len(wordArry)
+				fmt.Println(`Error : not enough input to use`, tag)
+				return tag
 			}
 			for i := wordArryLen; i > wordArryLen-repeat; i-- {
 				if i >= 0 {
@@ -71,16 +66,11 @@ func specialUp(text string) string {
 
 		return words
 	})
-	if spaceTest {
-		return " " + result
-	}
 	return result
 }
 
 func specialCap(text string) string {
 	re := regexp.MustCompile(`(.*?)(\( *c *a *p *, *(\d+) *\))`)
-	spaceTestRe := regexp.MustCompile(`^ `)
-	spaceTest := spaceTestRe.MatchString(text)
 	result := re.ReplaceAllStringFunc(text, func(s string) string {
 		digit := re.ReplaceAllString(s, `$3`)
 		words := re.ReplaceAllString(s, `$1`)
@@ -94,7 +84,8 @@ func specialCap(text string) string {
 			wordArry := newRe.FindAllString(words, -1)
 			wordArryLen := len(wordArry) - 1
 			if len(wordArry) < repeat {
-				repeat = len(wordArry)
+				fmt.Println(`Error : not enough input to use`, tag)
+				return tag
 			}
 			for i := wordArryLen; i > wordArryLen-repeat; i-- {
 				if i >= 0 {
@@ -106,8 +97,5 @@ func specialCap(text string) string {
 
 		return words
 	})
-	if spaceTest {
-		return " " + result
-	}
 	return result
 }

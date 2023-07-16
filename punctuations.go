@@ -14,5 +14,9 @@ func punctuations(text string) string {
 func fixEndingSpace(text string) string {
 	re := regexp.MustCompile(`([.,!?;:'"])\s$`)
 	result := re.ReplaceAll([]byte(text), []byte(`$1`))
+	re1 := regexp.MustCompile(`^ ('\S.*\S')`)
+	result = re1.ReplaceAll([]byte(result), []byte(`$1`))
+	re2 := regexp.MustCompile(`^ ("\S.*\S")`)
+	result = re2.ReplaceAll([]byte(result), []byte(`$1`))
 	return string(result)
 }
