@@ -13,12 +13,11 @@ func main() {
 			var outputText []string
 			for i, line := range inputText {
 				text := line
-				//text = fixSpaces(text)
-				text = editTags(text)
 				text = punctuations(text)
+				text = fixSingleQuotations(text)
+				text = fixDoubleQuotations(text)
+				text = editTags(text)
 				if checkTags(text) {
-					text = fixSingleQuotations(text)
-					text = fixDoubleQuotations(text)
 					text = convertA(text)
 					text = fixEndingSpace(text)
 					outputText = append(outputText, text)

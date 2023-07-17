@@ -1,6 +1,0 @@
-test (up)
-test (cap)
-TEST (low)
-test :
-' test '
-test ... 

@@ -5,21 +5,21 @@ import (
 	"regexp"
 )
 
-func fixSpaces(text string) string {
-	re := regexp.MustCompile(` +`)
-	newText := re.ReplaceAll([]byte(text), []byte(` `))
-	return string(newText)
-}
+// func fixSpaces(text string) string {
+// 	re := regexp.MustCompile(` +`)
+// 	newText := re.ReplaceAll([]byte(text), []byte(` `))
+// 	return string(newText)
+// }
 
 func editTags(text string) string {
-	hexPattern := `([)\S]+) *\( *h *e *x *\)`
-	binPattern := `([)\S]+) *\( *b *i *n *\)`
-	upPattern := `([)\S]+) *\( *u *p *\)`
-	lowPattern := `([)\S]+) *\( *l *o *w *\)`
-	capPattern := `([)\S]+) *\( *c *a *p *\)`
-	lowSpecialPattern := `([^) ]+ *)+(\( *l *o *w *, *(\d+) *\))`
-	upSpecialPattern := `([^) ]+ *)+(\( *u *p *, *(\d+) *\))`
-	capSpecialPattern := `([^) ]+ *)+(\( *c *a *p *, *(\d+) *\))`
+	hexPattern := `([^)\s]+) *\( *h *e *x *\)`
+	binPattern := `([^)\s]+) *\( *b *i *n *\)`
+	upPattern := `([^)\s]+) *\( *u *p *\)`
+	lowPattern := `([^)\s]+) *\( *l *o *w *\)`
+	capPattern := `([^)\s]+) *\( *c *a *p *\)`
+	lowSpecialPattern := `([^)\s]+ *)+(\( *l *o *w *, *(\d+) *\))`
+	upSpecialPattern := `([^)\s]+ *)+(\( *u *p *, *(\d+) *\))`
+	capSpecialPattern := `([^)\s]+ *)+(\( *c *a *p *, *(\d+) *\))`
 	re := regexp.MustCompile(hexPattern + `|` + binPattern + `|` + upPattern + `|` + lowPattern + `|` + capPattern + `|` + lowSpecialPattern + `|` + upSpecialPattern + `|` + capSpecialPattern)
 	editText := re.ReplaceAllFunc([]byte(text), func(b []byte) []byte {
 		hexRe := regexp.MustCompile(hexPattern)
